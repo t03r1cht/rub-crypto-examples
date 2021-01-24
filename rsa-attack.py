@@ -70,7 +70,7 @@ def rsa_attack_small_e(p_1, p_2, p_3):
     Takes 3 tuples with (n_i, e_i, c_i) (attack on 3 parties)
     c_i must be equal for all 3 tuples
     """
-    # unwind tuples
+    # unwind tuples 
     n_1=p_1[0]
     e_1=p_1[1]
     c_1=p_1[2]
