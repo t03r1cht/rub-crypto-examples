@@ -1,6 +1,8 @@
 from math import gcd
 from math import sqrt
+from math import floor
 import primefac
+from fractions import Fraction
 
 def factorize_n(n, e, d, a=2):
     """
@@ -143,13 +145,56 @@ def number_to_cf(n,d=1):
     """
     Requires a numerator and denominator: n/d
     Calculate the continued fraction of the given number (ger.: kettenbruchentwicklung)
+
+    n/d = <q_0, ... , q_m>
+    n/1 = <n>
     """
-    print(n,d)
+    # initialize the lists that hold the q_i, r_i values we need to compute the continued fractions
+    q_i=[]
+    r_i=[]
 
+    if d==0:
+        print("cant divide by zero")
+        return
 
+    # if the give fraction is a natural number (denominator is 1)
+    if d==1:
+        q_i.append(n)
+        return q_i
+
+    # init q_0, r_0
+    q_i.append(int(floor(Fraction(n,d))))
+    # use double index to access the un-floored q_0 (0: un-floored, 1: floored)
+    r_i.append(Fraction(n,d)-q_i[0])
+    
+    # TODO: exactly when does it stop?
+    # runs until q_i=i
+    #
+    # in other words: continue, until q_i is an integer ==> float(Fraction(n,d)).is_integer()
+    # we calculate the next iteration generally as:
+    # q_i = floor(1/(r_(i-1)))
+    # r_i = 1/(r_(i-1)) - q_i
+    i = 1
+    while True:
+        # index 0 is the un-floored previous q_i
+        q = floor(Fraction(1, r_i[i-1]))
+        q_i.append(int(q))
+
+        # perform exit condition check, if it fails, continue with computation of r
+        if i == q:
+            break
+        r = Fraction(1, r_i[i-1]) - Fraction(q, 1)
+        r_i.append(r)
+
+        i+=1
+        
+    return q_i
 
 if __name__ == '__main__':
     #factorize_n(n=667,e=3, d=411)
     # rsa_attack_small_e(p_1=(289,3,120),
     #                    p_2=(529,3,413),
     #                    p_3=(319,3,213))
+    print(number_to_cf(4,11))
+    print(number_to_cf(n=5))
+    print(number_to_cf(1234,57))
