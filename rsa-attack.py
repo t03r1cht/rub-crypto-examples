@@ -103,8 +103,6 @@ def rsa_attack_small_e(p_1, p_2, p_3):
     #
     # in other words: x_1 is the modular multiplicative inverse from n_2 * n_3 (mod n_1)
 
-    # pow(x, -1, n)
-
     x_1 = pow(n_2*n_3, -1, n_1)
     x_2 = pow(n_3*n_1, -1, n_2)
     x_3 = pow(n_1*n_2, -1, n_3)
@@ -126,15 +124,32 @@ def rsa_attack_small_e(p_1, p_2, p_3):
     e=e_1
     print("m ==>", round(c**(1/float(e))))
 
+def rsa_attack_small_d(n,e):
+    """
+    Requires a modulus n=p*q, p, q prime and the public RSA key e
 
+    Relies heavily on the fact that edg=k*floor((edg/k))+g and p+q=-floor(edg/k)+n+1
+    """
+    pass
 
 def get_prime_factors(x):
+    """
+    Factorizes a give number into a list of prime factors
+    """
     return primefac.factorint(x)
     
+
+def number_to_cf(n,d=1):
+    """
+    Requires a numerator and denominator: n/d
+    Calculate the continued fraction of the given number (ger.: kettenbruchentwicklung)
+    """
+    print(n,d)
+
 
 
 if __name__ == '__main__':
     #factorize_n(n=667,e=3, d=411)
-    rsa_attack_small_e(p_1=(289,3,120),
-                       p_2=(529,3,413),
-                       p_3=(319,3,213))
+    # rsa_attack_small_e(p_1=(289,3,120),
+    #                    p_2=(529,3,413),
+    #                    p_3=(319,3,213))
